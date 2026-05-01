@@ -513,81 +513,6 @@ footer {
   #about { grid-template-columns: 1fr; gap: 2rem; }
   .about-label { writing-mode: horizontal-tb; font-size: 2.5rem; }
 }
-
-/* ─── BLOG ─── */
-#blog {
-  padding: 8rem 4rem;
-  border-top: 1px solid var(--bordure);
-}
-.blog-intro { max-width: 500px; margin-bottom: 5rem; }
-.blog-intro p { font-size: 1.1rem; line-height: 2; color: var(--gris-clair); margin-top: 1.5rem; }
-.blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-.blog-card { position: relative; overflow: hidden; cursor: pointer; background: var(--surface); }
-.blog-card-img { position: relative; overflow: hidden; height: 280px; }
-.blog-card-img img {
-  width: 100%; height: 100%; object-fit: cover;
-  filter: brightness(0.6) saturate(0.8);
-  transition: transform 0.7s ease, filter 0.5s; display: block;
-}
-.blog-card:hover .blog-card-img img { transform: scale(1.06); filter: brightness(0.75) saturate(1); }
-.blog-card-content {
-  position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem;
-  background: linear-gradient(to top, rgba(8,8,8,0.92) 0%, transparent 100%);
-}
-.blog-tag { font-size: 0.5rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--or); margin-bottom: 0.5rem; display: block; }
-.blog-title { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(1.1rem, 2vw, 1.6rem); color: var(--blanc); line-height: 1.2; margin-bottom: 0.5rem; }
-.blog-date { font-size: 0.55rem; color: var(--gris); letter-spacing: 0.1em; }
-.blog-read { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--or); margin-top: 0.8rem; opacity: 0; transform: translateY(0.3rem); transition: opacity 0.3s, transform 0.3s; }
-.blog-read::after { content: '→'; }
-.blog-card:hover .blog-read { opacity: 1; transform: translateY(0); }
-
-/* ─── ABOUT ─── */
-#about {
-  padding: 8rem 4rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8rem;
-  align-items: center;
-  border-top: 1px solid var(--bordure);
-}
-.about-img { position: relative; aspect-ratio: 3/4; overflow: hidden; }
-.about-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) brightness(0.8); }
-.about-img::after {
-  content: ''; position: absolute; bottom: -1rem; right: -1rem;
-  width: 60%; height: 60%; border: 1px solid var(--or); pointer-events: none; opacity: 0.3;
-}
-.about-eyebrow { margin-bottom: 1rem; }
-.about-title { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(2rem, 3.5vw, 3rem); color: var(--blanc); line-height: 1.2; margin-bottom: 2rem; }
-.about-title em { font-style: italic; color: var(--or-clair); }
-.about-text { font-size: 0.9rem; line-height: 2.2; color: var(--gris-clair); margin-bottom: 1rem; }
-.about-sig { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.8rem; color: var(--or); margin-top: 2rem; }
-
-/* ─── ARTICLE RECIT ─── */
-.article-overlay { position: fixed; inset: 0; background: rgba(5,5,5,0.99); z-index: 2500; display: none; overflow-y: auto; }
-.article-overlay.active { display: block; }
-.article-inner { max-width: 780px; margin: 0 auto; padding: 2rem 2rem 6rem; }
-.article-nav { position: sticky; top: 0; display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; background: rgba(5,5,5,0.97); border-bottom: 1px solid var(--bordure); margin-bottom: 3rem; z-index: 10; }
-.article-back { background: none; border: 1px solid var(--bordure); color: var(--gris); padding: 1rem 2rem; cursor: pointer; font-family: 'Montserrat', sans-serif; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s; }
-.article-back:hover { border-color: var(--or); color: var(--or); }
-.article-tag { font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--or); margin-bottom: 1rem; }
-.article-title { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--blanc); line-height: 1.15; margin-bottom: 0.8rem; }
-.article-date { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--gris); text-transform: uppercase; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--bordure); }
-.article-body p { font-size: 1.1rem; line-height: 2.3; color: var(--gris-clair); margin-bottom: 1.8rem; font-family: 'Montserrat', sans-serif; font-weight: 300; }
-.article-photo { margin: 2rem auto; max-width: 60%; overflow: hidden; cursor: zoom-in; }
-.article-photo img { width: 100%; display: block; filter: brightness(0.9); transition: filter 0.4s; }
-.article-photo:hover img { filter: brightness(1); }
-.article-photo-caption { font-size: 0.55rem; letter-spacing: 0.15em; color: var(--gris); text-align: center; margin-top: 0.6rem; text-transform: uppercase; }
-
-/* ─── LIGHTBOX ─── */
-.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.97); z-index: 3000; display: none; align-items: center; justify-content: center; cursor: zoom-out; }
-.lightbox.active { display: flex; }
-.lightbox img { max-width: 92vw; max-height: 92vh; object-fit: contain; }
-
-@media (max-width: 768px) {
-  #about { grid-template-columns: 1fr; gap: 3rem; }
-  .blog-grid { grid-template-columns: 1fr; }
-  #blog, #about { padding: 4rem 1.5rem; }
-}
 </style>
 </head>
 <body>
@@ -601,7 +526,7 @@ footer {
   <ul class="nav-links">
     <li><a href="europe.html">Europe</a></li>
     <li><a href="asie.html">Asie</a></li>
-    <li><a href="#blog">Récits</a></li>
+    <li><a href="#recits">Récits</a></li>
     <li><a href="#about">À propos</a></li>
   </ul>
 </nav>
@@ -656,48 +581,34 @@ footer {
 </section>
 
 <!-- Récits -->
-<section id="blog">
-  <div class="blog-intro reveal">
-    <div class="section-eyebrow">Récits</div>
-    <h2 class="section-title">Les <em>histoires</em><br>derrière les images</h2>
-    <p>Pour certains thèmes, les mots complètent ce que l'image ne peut pas dire — l'attente, la lumière qui arrive enfin, l'apparition soudaine d'une scène incroyable qui s'affiche sous vos yeux, les émotions partagées au hasard des rencontres.</p>
+<section id="recits" style="padding: 6rem 4rem; border-top: 1px solid var(--bordure);">
+  <div class="reveal">
+    <div class="section-eyebrow">Blog</div>
+    <h2 class="section-title">Les <em>récits</em></h2>
   </div>
-  <div class="blog-grid" id="blog-grid"></div>
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 3rem;" id="recits-grid"></div>
 </section>
 
 <!-- À propos -->
 <section id="about">
-  <div class="about-img reveal">
-    <img src="https://eapi.pcloud.com/getpubthumb?code=XZ5jsiZjqRDa77c1D03cHk7SRDOY4wV8eyy&size=800x1100&crop=0&type=auto" alt="Guy Lagarde" />
-  </div>
+  <div class="about-label reveal">OBJECTIF</div>
   <div class="reveal">
-    <div class="section-eyebrow about-eyebrow">L'objectif</div>
-    <h2 class="about-title">Essayer de révéler la <em>beauté</em><br>de chaque instant</h2>
+    <h2 class="about-title">Chercher la <em>lumière</em><br>dans chaque instant</h2>
     <p class="about-text">
-      Ce portfolio rassemble mes photos coup de coeur, de ce que les gens et la nature m'ont offerts en cadeau.
+      Ce portfolio rassemble des années de voyages, d'attente et d'observation.
+      De la France à l'Indonésie, du Japon au Maroc — chaque destination
+      révèle une lumière particulière à ceux qui savent prendre le temps de regarder.
     </p>
     <p class="about-text">
-      Chaque thème est le fruit d'une exploration singulière : un territoire, une saison, une lumière. J'espère que chacun d'eux, l'espace d'un instant, emportera votre imaginaire loin des soucis du quotidien.
+      Chaque thème est le fruit d'une exploration singulière, parfois accompagnée
+      d'un récit — une tentative de mettre des mots sur ce que l'image ne peut pas dire seule.
     </p>
-    <div class="about-sig">Guy Lagarde</div>
+    <div class="about-sig">
+      <img src="https://eapi.pcloud.com/getpubthumb?code=XZDOBiZ1EE9bXpyGwyFzsPUr70rK5xvOdX7&size=400x200&crop=0&type=auto"
+           alt="Guy Lagarde" />
+    </div>
   </div>
 </section>
-
-<!-- Article Blog -->
-<div class="article-overlay" id="article-modal">
-  <div class="article-inner">
-    <div class="article-nav">
-      <button class="article-back" onclick="fermerArticleIndex()">← Retour</button>
-      <div style="font-size:0.65rem;letter-spacing:0.2em;color:var(--gris)" id="article-nav-title"></div>
-    </div>
-    <div id="article-content"></div>
-  </div>
-</div>
-
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox" onclick="fermerLightboxIndex()">
-  <img id="lightbox-img" src="" alt="" />
-</div>
 
 <!-- Bandeau droits -->
 <div class="footer-droits">
@@ -791,145 +702,50 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // ── Escape ──
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { fermerVideo(); fermerArticleIndex(); fermerLightboxIndex(); }
+  if (e.key === 'Escape') fermerVideo();
 });
 
-// ── Blog / Récits ──
-const BLOG_ARTICLES = [
-  {
-    themeId: "chasseur",
-    titre: "Le Chasseur de Nuages",
-    date: "Bali, Indonésie",
-    tag: "Indonésie",
-    coverUrl: "",
-    code: "kZfEGvZErqhnfVftnh07aYPpzcNnRqIpcok"
-  },
-  {
-    themeId: "ijen",
-    titre: "Le Kawah Ijen — Plonger dans le cratère aux flammes bleues",
-    date: "Bali, Indonésie",
-    tag: "Indonésie",
-    coverUrl: "",
-    code: "kZixavZmMdF8A9sl5XNHIpd9pQzwpWK5faV"
-  },
-  {
-    themeId: "batur",
-    titre: "Le Mont et le Lac Batur — L'aube sur le volcan",
-    date: "Bali, 29 avril 2016",
-    tag: "Indonésie",
-    coverUrl: "",
-    code: "kZJwavZMdQmyvMurJhn9xF4wMzcbmIAoyry"
-  }
+// ── Récits ──
+const RECITS_LIST = [
+  { id: "chasseur", pays: "Indonésie", titre: "Le Chasseur de Nuages", code: "kZfEGvZErqhnfVftnh07aYPpzcNnRqIpcok" },
+  { id: "ijen", pays: "Indonésie", titre: "Le Kawah Ijen — Flammes bleues", code: "kZixavZmMdF8A9sl5XNHIpd9pQzwpWK5faV" },
+  { id: "batur", pays: "Indonésie", titre: "Le Mont et le Lac Batur", code: "kZJwavZMdQmyvMurJhn9xF4wMzcbmIAoyry" },
 ];
 
-async function chargerCoverBlog() {
-  // Afficher d'abord les cartes sans image
-  renderBlog();
-  // Puis charger les covers et mettre à jour chaque image
-  for (let i = 0; i < BLOG_ARTICLES.length; i++) {
-    const a = BLOG_ARTICLES[i];
+async function renderRecits() {
+  const grid = document.getElementById("recits-grid");
+  if (!grid) return;
+
+  for (const r of RECITS_LIST) {
     try {
-      const resp = await fetch("https://eapi.pcloud.com/showpublink?code=" + a.code);
+      const resp = await fetch("https://eapi.pcloud.com/showpublink?code=" + r.code);
       const data = await resp.json();
       if (data.result === 0) {
         const imgs = (data.metadata?.contents || []).filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f.name));
         if (imgs.length) {
-          const pick = imgs[Math.floor(Math.random() * Math.min(imgs.length, 5))];
-          const url = "https://eapi.pcloud.com/getpubthumb?code=" + a.code + "&fileid=" + pick.fileid + "&size=800x600&crop=0&type=auto";
-          // Mettre à jour l'image directement dans le DOM
-          const cards = document.querySelectorAll(".blog-card");
-          if (cards[i]) {
-            const img = cards[i].querySelector("img");
-            if (img) img.src = url;
-          }
+          const pick = imgs[Math.floor(Math.random() * Math.min(imgs.length, 3))];
+          r.cover = "https://eapi.pcloud.com/getpubthumb?code=" + r.code + "&fileid=" + pick.fileid + "&size=800x600&crop=0&type=auto";
         }
       }
     } catch(e) {}
   }
-}
 
-function renderBlog() {
-  const grid = document.getElementById("blog-grid");
-  if (!grid) return;
+  const cards = RECITS_LIST.map(function(r) {
+    const cover = r.cover || "";
+    const div = document.createElement("div");
+    div.style.cssText = "position:relative;overflow:hidden;cursor:pointer;background:var(--surface);aspect-ratio:4/3;";
+    div.onclick = function() { window.location = "asie.html"; };
+    div.innerHTML =
+      '<img src="' + cover + '" alt="' + r.titre + '" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.55);display:block;" />' +
+      '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,0.9) 0%,transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem;">' +
+        '<div style="font-size:0.5rem;letter-spacing:0.3em;color:var(--or);text-transform:uppercase;margin-bottom:0.4rem;">Récit · ' + r.pays + '</div>' +
+        '<div style="font-family:Georgia,serif;font-weight:300;font-size:1.4rem;color:var(--blanc);">' + r.titre + '</div>' +
+      '</div>' +
+      '<div style="position:absolute;top:1rem;right:1rem;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--or);border:1px solid var(--or);padding:0.2rem 0.6rem;background:rgba(8,8,8,0.7);">Récit</div>';
+    return div;
+  });
   grid.innerHTML = "";
-  BLOG_ARTICLES.forEach(function(a) {
-    const card = document.createElement("div");
-    card.className = "blog-card";
-    card.onclick = function() { ouvrirArticleIndex(a.themeId); };
-    card.innerHTML =
-      "<div class='blog-card-img'><img src='" + a.coverUrl + "' alt='" + a.titre + "' /></div>" +
-      "<div class='blog-card-content'>" +
-        "<span class='blog-tag'>" + a.tag + "</span>" +
-        "<h3 class='blog-title'>" + a.titre + "</h3>" +
-        "<div class='blog-date'>" + a.date + "</div>" +
-        "<div class='blog-read'>Lire le récit</div>" +
-      "</div>";
-    grid.appendChild(card);
-  });
-}
-
-async function ouvrirArticleIndex(themeId) {
-  const recit = RECITS[themeId];
-  if (!recit) return;
-  const article = BLOG_ARTICLES.find(a => a.themeId === themeId);
-
-  document.getElementById("article-nav-title").textContent = recit.titre;
-  document.getElementById("article-content").innerHTML =
-    "<div class='article-tag'>" + recit.titre + "</div>" +
-    "<h1 class='article-title'>" + recit.titre + "</h1>" +
-    "<div class='article-date'>" + (article ? article.date : "") + "</div>" +
-    "<div class='article-body' id='article-body-idx'><div style='text-align:center;padding:4rem;color:var(--gris)'>Chargement...</div></div>";
-
-  document.getElementById("article-modal").classList.add("active");
-  document.body.style.overflow = "hidden";
-
-  let images = [];
-  if (article) {
-    try {
-      const resp = await fetch("https://eapi.pcloud.com/showpublink?code=" + article.code);
-      const data = await resp.json();
-      if (data.result === 0) {
-        images = (data.metadata?.contents || [])
-          .filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f.name))
-          .map(f => ({
-            url: "https://eapi.pcloud.com/getpubthumb?code=" + article.code + "&fileid=" + f.fileid + "&size=1200x800&crop=0&type=auto",
-            urlFull: "https://eapi.pcloud.com/getpubthumb?code=" + article.code + "&fileid=" + f.fileid + "&size=2400x1600&crop=0&type=auto"
-          }));
-      }
-    } catch(e) {}
-  }
-
-  const paras = recit.paragraphes || [];
-  const nbPhotos = Math.min(images.length, 5);
-  const step = nbPhotos > 0 ? Math.floor(paras.length / (nbPhotos + 1)) || 1 : 999;
-  let html = "";
-  let photoIdx = 0;
-  paras.forEach(function(p, i) {
-    html += "<p>" + p + "</p>";
-    if (photoIdx < nbPhotos && (i + 1) % step === 0) {
-      const img = images[photoIdx];
-      const photoDiv = document.createElement("div");
-      photoDiv.className = "article-photo";
-      photoDiv.onclick = (function(u) { return function() { ouvrirLightboxIndex(u); }; })(img.urlFull);
-      photoDiv.innerHTML = "<img src='" + img.url + "' loading='lazy' /><div class='article-photo-caption'>Cliquer pour agrandir</div>";
-      html += photoDiv.outerHTML;
-      photoIdx++;
-    }
-  });
-  document.getElementById("article-body-idx").innerHTML = html;
-}
-
-function fermerArticleIndex() {
-  document.getElementById("article-modal").classList.remove("active");
-  document.body.style.overflow = "";
-}
-
-function ouvrirLightboxIndex(src) {
-  document.getElementById("lightbox-img").src = src;
-  document.getElementById("lightbox").classList.add("active");
-}
-function fermerLightboxIndex() {
-  document.getElementById("lightbox").classList.remove("active");
+  cards.forEach(function(card) { grid.appendChild(card); });
 }
 
 // ── Init ──
