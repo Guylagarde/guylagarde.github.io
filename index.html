@@ -661,7 +661,9 @@ footer {
     <div class="section-eyebrow">Récits</div>
     <h2 class="section-title">Les <em>histoires</em><br>derrière les images</h2>
     <p>Pour certains thèmes, les mots complètent ce que l'image ne peut pas dire — l'attente, la lumière qui arrive enfin, l'apparition soudaine d'une scène incroyable qui s'affiche sous vos yeux, les émotions partagées au hasard des rencontres.</p>
-  </div>
+  <p style="margin-top:1.5rem;font-style:italic;color:var(--or);">
+  Les thèmes qui comportent des récits sont signalés par un bouton <span style="border:1px solid var(--or);padding:0.1rem 0.5rem;font-size:0.8rem;letter-spacing:0.1em;">Récit</span>. Il suffit de cliquer dessus pour accéder aux histoires de ces découvertes.
+</p></div>
   <div class="blog-grid" id="blog-grid"></div>
 </section>
 
@@ -822,6 +824,32 @@ const BLOG_ARTICLES = [
   }
 ];
 
+async function chargerCoverBlog() {
+  // Afficher d'abord les cartes sans image
+  renderBlog();
+  // Puis charger les covers et mettre à jour chaque image
+  for (let i = 0; i < BLOG_ARTICLES.length; i++) {
+    const a = BLOG_ARTICLES[i];
+    try {
+      const resp = await fetch("https://eapi.pcloud.com/showpublink?code=" + a.code);
+      const data = await resp.json();
+      if (data.result === 0) {
+        const imgs = (data.metadata?.contents || []).filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f.name));
+        if (imgs.length) {
+          const pick = imgs[Math.floor(Math.random() * Math.min(imgs.length, 5))];
+          const url = "https://eapi.pcloud.com/getpubthumb?code=" + a.code + "&fileid=" + pick.fileid + "&size=800x600&crop=0&type=auto";
+          // Mettre à jour l'image directement dans le DOM
+          const cards = document.querySelectorAll(".blog-card");
+          if (cards[i]) {
+            const img = cards[i].querySelector("img");
+            if (img) img.src = url;
+          }
+        }
+      }
+    } catch(e) {}
+  }
+}
+
 function renderBlog() {
   const grid = document.getElementById("blog-grid");
   if (!grid) return;
@@ -840,26 +868,6 @@ function renderBlog() {
       "</div>";
     grid.appendChild(card);
   });
-}
-
-async function chargerCoverBlog() {
-  // 1. Charger toutes les covers depuis pCloud
-  for (let i = 0; i < BLOG_ARTICLES.length; i++) {
-    try {
-      const resp = await fetch("https://eapi.pcloud.com/showpublink?code=" + BLOG_ARTICLES[i].code);
-      const data = await resp.json();
-      if (data.result === 0) {
-        const imgs = (data.metadata && data.metadata.contents ? data.metadata.contents : [])
-          .filter(function(f) { return /\.(jpg|jpeg|png|webp)$/i.test(f.name); });
-        if (imgs.length) {
-          const pick = imgs[Math.floor(Math.random() * Math.min(imgs.length, 5))];
-          BLOG_ARTICLES[i].coverUrl = "https://eapi.pcloud.com/getpubthumb?code=" + BLOG_ARTICLES[i].code + "&fileid=" + pick.fileid + "&size=800x600&crop=0&type=auto";
-        }
-      }
-    } catch(e) {}
-  }
-  // 2. Afficher les cartes avec les vraies photos
-  renderBlog();
 }
 
 async function ouvrirArticleIndex(themeId) {
