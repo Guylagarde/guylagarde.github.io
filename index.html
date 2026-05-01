@@ -843,26 +843,24 @@ function renderBlog() {
 }
 
 async function chargerCoverBlog() {
-  // Charger toutes les covers d'abord
+  // 1. Charger toutes les covers depuis pCloud
   for (let i = 0; i < BLOG_ARTICLES.length; i++) {
-    const a = BLOG_ARTICLES[i];
     try {
-      const resp = await fetch("https://eapi.pcloud.com/showpublink?code=" + a.code);
+      const resp = await fetch("https://eapi.pcloud.com/showpublink?code=" + BLOG_ARTICLES[i].code);
       const data = await resp.json();
       if (data.result === 0) {
-        const contents = data.metadata && data.metadata.contents ? data.metadata.contents : [];
-        const imgs = contents.filter(function(f) { return /\.(jpg|jpeg|png|webp)$/i.test(f.name); });
+        const imgs = (data.metadata && data.metadata.contents ? data.metadata.contents : [])
+          .filter(function(f) { return /\.(jpg|jpeg|png|webp)$/i.test(f.name); });
         if (imgs.length) {
           const pick = imgs[Math.floor(Math.random() * Math.min(imgs.length, 5))];
-          BLOG_ARTICLES[i].coverUrl = "https://eapi.pcloud.com/getpubthumb?code=" + a.code + "&fileid=" + pick.fileid + "&size=800x600&crop=0&type=auto";
+          BLOG_ARTICLES[i].coverUrl = "https://eapi.pcloud.com/getpubthumb?code=" + BLOG_ARTICLES[i].code + "&fileid=" + pick.fileid + "&size=800x600&crop=0&type=auto";
         }
       }
-    } catch(e) { console.log("Erreur cover blog", i, e); }
+    } catch(e) {}
   }
-  // Puis afficher les cartes avec les vraies photos
+  // 2. Afficher les cartes avec les vraies photos
   renderBlog();
 }
-
 
 async function ouvrirArticleIndex(themeId) {
   const recit = RECITS[themeId];
