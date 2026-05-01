@@ -609,7 +609,21 @@ footer {
     </div>
   </div>
 </section>
+<!-- Article Blog -->
+<div class="article-overlay" id="article-modal">
+  <div class="article-inner">
+    <div class="article-nav">
+      <button class="article-back" onclick="fermerArticleIndex()">← Retour</button>
+      <div style="font-size:0.65rem;letter-spacing:0.2em;color:var(--gris)" id="article-nav-title"></div>
+    </div>
+    <div id="article-content"></div>
+  </div>
+</div>
 
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="fermerLightboxIndex()">
+  <img id="lightbox-img" src="" alt="" />
+</div>
 <!-- Bandeau droits -->
 <div class="footer-droits">
   <p>Les photos et les textes de ce site ne sont pas libres de droit — toute utilisation est soumise à l'accord du photographe.</p>
