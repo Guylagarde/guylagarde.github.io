@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asie — Guy Lagarde Photographie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --noir: #080808;
+  --surface: #111111;
+  --bordure: #222222;
+  --or: #c9a96e;
+  --or-clair: #e8c98a;
+  --blanc: #f0ece4;
+  --gris: #777777;
+  --gris-clair: #aaaaaa;
+  --rouge: #8b0000;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--noir);
+  color: var(--blanc);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  cursor: none;
+}
+.cursor { position: fixed; width: 8px; height: 8px; background: var(--or); border-radius: 50%; pointer-events: none; z-index: 99999; transform: translate(-50%,-50%); }
+.cursor-ring { position: fixed; width: 30px; height: 30px; border: 1px solid rgba(201,169,110,0.4); border-radius: 50%; pointer-events: none; z-index: 99998; transform: translate(-50%,-50%); }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; justify-content: flex-end; align-items: center;
+  padding: 1.5rem 4rem;
+  background: linear-gradient(to bottom, rgba(8,8,8,0.97), transparent);
+  border-bottom: 1px solid rgba(201,169,110,0.1);
+}
+.nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+.nav-links a {
+  font-size: 1rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--gris-clair); text-decoration: none; transition: color 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--or); transition: width 0.3s;
+}
+.nav-links a:hover::after { width: 100%; }
+.nav-links a:hover, .nav-links a.active { color: var(--blanc); }
+
+/* Header page */
+.page-header {
+  padding-top: 8rem;
+  padding-bottom: 4rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  border-bottom: 1px solid var(--bordure);
+}
+.page-eyebrow {
+  font-size: 0.6rem; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--or); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.page-eyebrow::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--or); }
+.page-title {
+  font-family: 'Cormorant Garamond', serif; font-weight: 300;
+  font-size: clamp(4rem, 10vw, 8rem); line-height: 0.9;
+  color: var(--blanc); margin-bottom: 1rem;
+}
+.page-title em { font-style: italic; color: var(--or-clair); }
+.page-sub { font-size: 0.7rem; color: var(--gris-clair); letter-spacing: 0.15em; }
+
+/* Grille pays */
+.pays-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  padding: 4rem;
+}
+
+.pays-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--surface);
+  aspect-ratio: 4/3;
+  transition: transform 0.3s;
+}
+.pays-card:hover { transform: scale(1.01); }
+
+.pays-cover {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: brightness(0.5) saturate(0.8);
+  transition: filter 0.5s, transform 0.6s;
+  display: block;
+}
+.pays-card:hover .pays-cover {
+  filter: brightness(0.7) saturate(1);
+  transform: scale(1.04);
+}
+
+.pays-placeholder {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #1a1a1a, #111);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem;
+}
+
+.pays-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 60%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 1.5rem;
+}
+
+.pays-flag { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.pays-flag img { width: 2rem; height: auto; border-radius: 2px; }
+.pays-nom {
+  font-family: 'Cormorant Garamond', serif; font-weight: 300;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  color: var(--blanc); line-height: 1;
+  margin-bottom: 0.3rem;
+}
+.pays-count {
+  font-size: 0.55rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--or);
+}
+.pays-legende {
+  font-size: 0.6rem; line-height: 1.6;
+  color: var(--gris-clair); margin-top: 0.5rem;
+  opacity: 0; transform: translateY(0.3rem);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.pays-card:hover .pays-legende { opacity: 1; transform: translateY(0); }
+
+/* Modal galerie */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(5,5,5,0.98);
+  z-index: 2000; display: none; overflow-y: auto;
+}
+.modal-overlay.active { display: block; }
+.modal-inner { max-width: 1400px; margin: 0 auto; padding: 2rem 4rem 6rem; }
+.modal-nav {
+  position: sticky; top: 0;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 2rem 0;
+  background: rgba(5,5,5,0.97);
+  border-bottom: 1px solid var(--bordure);
+  margin-bottom: 2rem; z-index: 10;
+}
+.modal-titre {
+  font-family: 'Cormorant Garamond', serif; font-weight: 300;
+  font-size: clamp(2rem, 5vw, 3.5rem); color: var(--blanc);
+}
+.modal-close {
+  background: none; border: 1px solid var(--bordure);
+  color: var(--gris); padding: 0.8rem 1.5rem; cursor: pointer;
+  font-family: 'Montserrat', sans-serif; font-size: 0.65rem;
+  letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s;
+}
+.modal-close:hover { border-color: var(--or); color: var(--or); }
+
+/* Sous-thèmes */
+.themes-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  margin-bottom: 3rem;
+}
+.theme-item {
+  position: relative; overflow: hidden; cursor: pointer;
+  background: var(--surface); aspect-ratio: 4/3;
+}
+.theme-img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: brightness(0.55); transition: filter 0.4s, transform 0.5s;
+  display: block;
+}
+.theme-item:hover .theme-img { filter: brightness(0.75); transform: scale(1.04); }
+.theme-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(8,8,8,0.92) 0%, transparent 55%);
+  display: flex; flex-direction: column; justify-content: flex-end; padding: 1.2rem;
+}
+.theme-nom {
+  font-family: 'Cormorant Garamond', serif; font-weight: 300;
+  font-size: clamp(1rem, 2vw, 1.5rem); color: var(--blanc); line-height: 1.2;
+}
+.theme-legende {
+  font-size: 0.6rem; color: var(--gris-clair); margin-top: 0.3rem;
+  letter-spacing: 0.1em; line-height: 1.5;
+}
+.theme-blog {
+  position: absolute; top: 1rem; right: 1rem;
+  font-size: 0.5rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--or); border: 1px solid var(--or);
+  padding: 0.2rem 0.5rem; background: rgba(8,8,8,0.7);
+}
+.theme-count { font-size: 0.55rem; color: var(--or); letter-spacing: 0.1em; margin-top: 0.3rem; }
+
+/* Galerie masonry */
+.galerie-masonry { columns: 3; column-gap: 3px; }
+.galerie-item { break-inside: avoid; margin-bottom: 3px; overflow: hidden; cursor: zoom-in; }
+.galerie-item img {
+  width: 100%; display: block;
+  filter: brightness(0.9); transition: filter 0.4s, transform 0.5s;
+}
+.galerie-item:hover img { filter: brightness(1); transform: scale(1.02); }
+
+.galerie-loading {
+  text-align: center; padding: 5rem;
+  color: var(--gris); font-size: 0.65rem; letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.galerie-loading::after {
+  content: ''; display: block; width: 2rem; height: 1px;
+  background: var(--or); margin: 1rem auto 0;
+  animation: pulse 1.5s ease infinite;
+}
+@keyframes pulse {
+  0%, 100% { width: 2rem; opacity: 0.3; }
+  50% { width: 5rem; opacity: 1; }
+}
+
+/* Vidéos du pays */
+.pays-videos { margin-top: 3rem; border-top: 1px solid var(--bordure); padding-top: 2rem; }
+.pays-videos-title {
+  font-family: 'Cormorant Garamond', serif; font-weight: 300;
+  font-size: 1.8rem; color: var(--blanc); margin-bottom: 1.5rem;
+}
+.pays-videos-titre em { font-style: italic; color: var(--or-clair); }
+.videos-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; }
+.video-mini { cursor: pointer; }
+.video-mini-thumb {
+  position: relative; aspect-ratio: 16/9; overflow: hidden; background: #1a1a1a; max-height: 120px;
+}
+.video-mini-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: brightness(0.7); transition: filter 0.3s, transform 0.4s;
+}
+.video-mini:hover .video-mini-thumb img { filter: brightness(0.9); transform: scale(1.03); }
+.video-mini-play {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px; height: 40px;
+  border: 1px solid var(--or); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--or); background: rgba(8,8,8,0.5);
+  transition: background 0.2s;
+}
+.video-mini:hover .video-mini-play { background: var(--or); color: var(--noir); }
+.video-mini-titre { font-size: 0.55rem; color: var(--gris-clair); margin-top: 0.4rem; }
+
+/* Lightbox */
+.lightbox {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.97);
+  z-index: 3000; display: none; align-items: center; justify-content: center;
+  cursor: zoom-out;
+}
+.lightbox.active { display: flex; }
+.lightbox img { max-width: 92vw; max-height: 92vh; object-fit: contain; }
+
+/* Modal vidéo */
+.video-modal {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.96);
+  z-index: 4000; display: none; align-items: center; justify-content: center;
+  flex-direction: column; gap: 1rem;
+}
+.video-modal.active { display: flex; }
+.video-modal iframe { width: 90vw; height: 50.625vw; max-height: 85vh; border: none; }
+.video-modal-close {
+  background: none; border: 1px solid var(--gris); color: var(--gris);
+  padding: 0.6rem 1.5rem; cursor: pointer;
+  font-family: 'Montserrat', sans-serif; font-size: 0.6rem;
+  letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.2s;
+}
+.video-modal-close:hover { border-color: var(--or); color: var(--or); }
+
+/* Article récit */
+.article-overlay {
+  position: fixed; inset: 0; background: rgba(5,5,5,0.99);
+  z-index: 2500; display: none; overflow-y: auto;
+}
+.article-overlay.active { display: block; }
+.article-inner { max-width: 780px; margin: 0 auto; padding: 2rem 2rem 6rem; }
+.article-nav {
+  position: sticky; top: 0;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 2rem 0; background: rgba(5,5,5,0.97);
+  border-bottom: 1px solid var(--bordure); margin-bottom: 3rem; z-index: 10;
+}
+.article-back {
+  background: none; border: 1px solid var(--bordure); color: var(--gris);
+  padding: 0.8rem 1.5rem; cursor: pointer;
+  font-family: 'Montserrat', sans-serif; font-size: 0.7rem;
+  letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s;
+}
+.article-back:hover { border-color: var(--or); color: var(--or); }
+.article-tag {
+  font-size: 0.6rem; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--or); margin-bottom: 1rem;
+}
+.article-title {
+  font-family: 'Cormorant Garamond', serif; font-weight: 300;
+  font-size: clamp(2rem, 5vw, 3.5rem); color: var(--blanc);
+  line-height: 1.15; margin-bottom: 0.8rem;
+}
+.article-date {
+  font-size: 0.6rem; letter-spacing: 0.2em; color: var(--gris);
+  text-transform: uppercase; margin-bottom: 3rem;
+  padding-bottom: 2rem; border-bottom: 1px solid var(--bordure);
+}
+.article-body p {
+  font-size: 1rem; line-height: 2.3; color: var(--gris-clair);
+  margin-bottom: 1.8rem; font-family: 'Montserrat', sans-serif; font-weight: 300;
+}
+.article-photo { margin: 2rem auto; max-width: 60%; overflow: hidden; cursor: zoom-in; }
+.article-photo img { width: 100%; display: block; filter: brightness(0.9); transition: filter 0.4s; }
+.article-photo:hover img { filter: brightness(1); }
+.article-photo-caption {
+  font-size: 0.55rem; letter-spacing: 0.15em; color: var(--gris);
+  text-align: center; margin-top: 0.5rem; text-transform: uppercase;
+}
+
+/* Footer */
+.footer-droits { background: var(--rouge); text-align: center; padding: 0.8rem 2rem; }
+.footer-droits p { font-size: 0.65rem; letter-spacing: 0.15em; color: var(--blanc); }
+footer {
+  padding: 2rem 4rem; border-top: 1px solid var(--bordure);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-logo img { height: 30px; opacity: 0.5; }
+.footer-copy { font-size: 0.55rem; color: var(--gris); letter-spacing: 0.1em; }
+
+.reveal { opacity: 0; transform: translateY(1.5rem); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .page-header { padding: 7rem 1.5rem 3rem; }
+  .pays-grid { grid-template-columns: 1fr 1fr; padding: 1.5rem; gap: 1px; }
+  .themes-grid { grid-template-columns: 1fr 1fr; }
+  .galerie-masonry { columns: 2; }
+  .videos-row { grid-template-columns: 1fr 1fr; }
+  .modal-inner { padding: 1rem 1.5rem 4rem; }
+}
+@media (max-width: 480px) {
+  .pays-grid { grid-template-columns: 1fr; }
+  .themes-grid { grid-template-columns: 1fr; }
+  .galerie-masonry { columns: 1; }
+  .videos-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="europe.html">Europe</a></li>
+    <li><a href="asie.html" class="active">Asie</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="page-eyebrow">Photographie de voyage</div>
+  <h1 class="page-title"><em>Asie</em></h1>
+  <p class="page-sub">5 pays · 13 thèmes · De l'Indonésie au Japon</p>
+</div>
+
+<div class="pays-grid" id="pays-grid"></div>
+
+<div class="footer-droits">
+  <p>Les photos et les textes de ce site ne sont pas libres de droit — toute utilisation est soumise à l'accord du photographe.</p>
+</div>
+<footer>
+  <div class="footer-logo">
+    <img src="https://eapi.pcloud.com/getpubthumb?code=XZDOBiZ1EE9bXpyGwyFzsPUr70rK5xvOdX7&size=400x200&crop=0&type=auto" alt="Guy Lagarde" />
+  </div>
+  <div class="footer-copy">© 2025 Guy Lagarde — Tous droits réservés</div>
+</footer>
+
+<!-- Modal pays (thèmes + galerie) -->
+<div class="modal-overlay" id="modal-pays">
+  <div class="modal-inner">
+    <div class="modal-nav">
+      <h2 class="modal-titre" id="modal-pays-titre">—</h2>
+      <button class="modal-close" onclick="fermerPays()">✕ Fermer</button>
+    </div>
+    <div id="modal-pays-body"></div>
+  </div>
+</div>
+
+<!-- Modal galerie thème -->
+<div class="modal-overlay" id="modal-theme">
+  <div class="modal-inner">
+    <div class="modal-nav">
+      <h2 class="modal-titre" id="modal-theme-titre">—</h2>
+      <button class="modal-close" onclick="fermerTheme()">✕ Fermer</button>
+    </div>
+    <div id="modal-theme-body"></div>
+  </div>
+</div>
+
+<!-- Article récit -->
+<div class="article-overlay" id="article-modal">
+  <div class="article-inner">
+    <div class="article-nav">
+      <button class="article-back" onclick="fermerArticle()">← Retour</button>
+      <div id="article-nav-titre" style="font-size:0.6rem;letter-spacing:0.2em;color:var(--gris)"></div>
+    </div>
+    <div id="article-content"></div>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="fermerLightbox()">
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<!-- Modal vidéo -->
+<div class="video-modal" id="video-modal">
+  <iframe id="video-iframe" src="" allowfullscreen allow="autoplay"></iframe>
+  <button class="video-modal-close" onclick="fermerVideo()">✕ Fermer</button>
+</div>
+
+<script src="data.js"></script>
+<script>
+const BASE = "https://eapi.pcloud.com";
+
+// ── Rendu grille pays ──
+function renderPays() {
+  const grid = document.getElementById('pays-grid');
+  grid.innerHTML = ASIE.map(pays => `
+    <div class="pays-card reveal" onclick="ouvrirPays('${pays.id}')">
+      <div class="pays-placeholder">${pays.flagImg ? '<img src="' + pays.flagImg + '" alt="' + pays.nom + '" style="width:4rem;height:auto;border-radius:3px;" />' : pays.flag}</div>
+      <div class="pays-overlay">
+        <div class="pays-flag">${pays.flagImg ? '<img src="' + pays.flagImg + '" alt="' + pays.nom + '" />' : pays.flag}</div>
+        <div class="pays-nom">${pays.nom}</div>
+        <div class="pays-count">${pays.themes.length} thème${pays.themes.length > 1 ? 's' : ''}</div>
+        <div class="pays-legende">${pays.legende}</div>
+      </div>
+    </div>
+  `).join('');
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  // Charger couvertures
+  ASIE.forEach((pays, i) => {
+    setTimeout(() => chargerCouverturePays(pays, i), i * 400);
+  });
+}
+
+async function chargerCouverturePays(pays, idx) {
+  if (!pays.themes.length) return;
+  try {
+    const theme = pays.themes[0];
+    const resp = await fetch(`${BASE}/showpublink?code=${theme.code}`);
+    const data = await resp.json();
+    if (data.result !== 0) return;
+    const images = (data.metadata?.contents || []).filter(f =>
+      !f.isfolder && /\.(jpg|jpeg|png|webp)$/i.test(f.name)
+    );
+    if (!images.length) return;
+    const pick = images[Math.floor(Math.random() * Math.min(images.length, 5))];
+    const url = `${BASE}/getpubthumb?code=${theme.code}&fileid=${pick.fileid}&size=800x600&crop=0&type=auto`;
+    const cards = document.querySelectorAll('.pays-card');
+    if (cards[idx]) {
+      const placeholder = cards[idx].querySelector('.pays-placeholder');
+      if (placeholder) {
+        const img = document.createElement('img');
+        img.className = 'pays-cover';
+        img.src = url;
+        img.alt = pays.nom;
+        placeholder.replaceWith(img);
+      }
+    }
+  } catch(e) {}
+}
+
+// ── Ouvrir un pays ──
+function ouvrirPays(paysId) {
+  const pays = ASIE.find(p => p.id === paysId);
+  if (!pays) return;
+  document.getElementById('modal-pays-titre').textContent = pays.nom;
+  const body = document.getElementById('modal-pays-body');
+
+  // Même avec 1 seul thème, on passe par la modal pour montrer les vidéos
+  if (pays.themes.length === 1 && (!pays.videos || pays.videos.length === 0)) {
+    fermerPays();
+    ouvrirTheme(pays.themes[0], pays);
+    return;
+  }
+
+  // Plusieurs thèmes
+  let html = `<div class="themes-grid">`;
+  html += pays.themes.map(t => `
+    <div class="theme-item" onclick="ouvrirTheme(${JSON.stringify(t).replace(/"/g, '&quot;')}, ${JSON.stringify({nom: pays.nom, videos: pays.videos}).replace(/"/g, '&quot;')})">
+      <div class="galerie-loading" style="min-height:200px;padding:2rem" id="cover-${t.id}">
+        <span>${t.nom}</span>
+      </div>
+      <div class="theme-overlay">
+        <div class="theme-nom">${t.nom}</div>
+        <div class="theme-count" id="count-${t.id}">—</div>
+      </div>
+      ${t.blog ? `<div class="theme-blog" onclick="event.stopPropagation(); ouvrirArticle('${t.id}')">Récit</div>` : ''}
+    </div>
+  `).join('');
+  html += '</div>';
+
+  // Vidéos du pays
+  if (pays.videos && pays.videos.length) {
+    html += `<div class="pays-videos">
+      <h3 class="pays-videos-title">Vidéos — <em>${pays.nom}</em></h3>
+      <div class="videos-row">
+        ${pays.videos.map(v => {
+          const ytId = v.url.split('/').pop().split('?')[0];
+          return `<div class="video-mini" onclick="ouvrirVideo('${ytId}')">
+            <div class="video-mini-thumb">
+              <img src="https://img.youtube.com/vi/${ytId}/mqdefault.jpg" alt="${v.titre}" loading="lazy" />
+              <div class="video-mini-play">▶</div>
+            </div>
+            <div class="video-mini-titre">${v.titre}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }
+
+  body.innerHTML = html;
+  document.getElementById('modal-pays').classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Charger couvertures thèmes
+  pays.themes.forEach((t, i) => {
+    setTimeout(() => chargerCouvertureTheme(t), i * 300);
+  });
+}
+
+async function chargerCouvertureTheme(theme) {
+  try {
+    const resp = await fetch(`${BASE}/showpublink?code=${theme.code}`);
+    const data = await resp.json();
+    if (data.result !== 0) return;
+    const images = (data.metadata?.contents || []).filter(f =>
+      !f.isfolder && /\.(jpg|jpeg|png|webp)$/i.test(f.name)
+    );
+    const countEl = document.getElementById(`count-${theme.id}`);
+    if (countEl) countEl.textContent = images.length + ' photo' + (images.length > 1 ? 's' : '');
+    if (!images.length) return;
+    const pick = images[Math.floor(Math.random() * Math.min(images.length, 5))];
+    const url = `${BASE}/getpubthumb?code=${theme.code}&fileid=${pick.fileid}&size=800x600&crop=0&type=auto`;
+    const el = document.getElementById(`cover-${theme.id}`);
+    if (el) {
+      const img = document.createElement('img');
+      img.className = 'theme-img';
+      img.src = url;
+      img.alt = theme.nom;
+      el.replaceWith(img);
+    }
+  } catch(e) {}
+}
+
+function fermerPays() {
+  document.getElementById('modal-pays').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ── Ouvrir un thème (galerie) ──
+async function ouvrirTheme(theme, paysInfo) {
+  // Toujours ouvrir la galerie (le récit est accessible depuis le badge)
+
+  document.getElementById('modal-theme-titre').textContent = theme.nom;
+  document.getElementById('modal-theme-body').innerHTML = '<div class="galerie-loading">Chargement des photos</div>';
+  document.getElementById('modal-theme').classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  try {
+    const resp = await fetch(`${BASE}/showpublink?code=${theme.code}`);
+    const data = await resp.json();
+    if (data.result !== 0) { document.getElementById('modal-theme-body').innerHTML = '<div class="galerie-loading">Erreur de chargement</div>'; return; }
+    const images = (data.metadata?.contents || []).filter(f =>
+      !f.isfolder && /\.(jpg|jpeg|png|webp)$/i.test(f.name)
+    );
+    if (!images.length) { document.getElementById('modal-theme-body').innerHTML = '<div class="galerie-loading">Aucune image trouvée</div>'; return; }
+
+    const html = `<div class="galerie-masonry">
+      ${images.map(img => {
+        const url = `${BASE}/getpubthumb?code=${theme.code}&fileid=${img.fileid}&size=1200x900&crop=0&type=auto`;
+        const urlFull = `${BASE}/getpubthumb?code=${theme.code}&fileid=${img.fileid}&size=2400x1800&crop=0&type=auto`;
+        return `<div class="galerie-item">
+          <img src="${url}" alt="${img.name}" loading="lazy"
+               onclick="event.stopPropagation(); ouvrirLightbox('${urlFull}')" />
+        </div>`;
+      }).join('')}
+    </div>`;
+    document.getElementById('modal-theme-body').innerHTML = html;
+  } catch(e) {
+    document.getElementById('modal-theme-body').innerHTML = '<div class="galerie-loading">Erreur de connexion</div>';
+  }
+}
+
+function fermerTheme() {
+  document.getElementById('modal-theme').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ── Article récit ──
+async function ouvrirArticle(themeId) {
+  const recit = RECITS[themeId];
+  if (!recit) return;
+  const theme = EUROPE.flatMap(p => p.themes).find(t => t.id === themeId) ||
+                ASIE.flatMap(p => p.themes).find(t => t.id === themeId);
+
+  document.getElementById('article-nav-titre').textContent = recit.titre;
+  document.getElementById('article-content').innerHTML = `
+    <div class="article-tag">${recit.titre}</div>
+    <h1 class="article-title">${recit.titre}</h1>
+    <div class="article-date">${recit.date}</div>
+    <div class="article-body" id="article-body-content">
+      <div class="galerie-loading">Chargement...</div>
+    </div>
+  `;
+  document.getElementById('article-modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  let images = [];
+  if (theme) {
+    try {
+      const resp = await fetch(`${BASE}/showpublink?code=${theme.code}`);
+      const data = await resp.json();
+      if (data.result === 0) {
+        images = (data.metadata?.contents || [])
+          .filter(f => !f.isfolder && /\.(jpg|jpeg|png|webp)$/i.test(f.name))
+          .map(f => ({
+            url: `${BASE}/getpubthumb?code=${theme.code}&fileid=${f.fileid}&size=1200x800&crop=0&type=auto`,
+            urlFull: `${BASE}/getpubthumb?code=${theme.code}&fileid=${f.fileid}&size=2400x1600&crop=0&type=auto`
+          }));
+      }
+    } catch(e) {}
+  }
+
+  const paras = recit.paragraphes || [];
+  const nbPhotos = Math.min(images.length, 5);
+  const step = nbPhotos > 0 ? Math.floor(paras.length / (nbPhotos + 1)) || 1 : 999;
+  let html = '';
+  let photoIdx = 0;
+  paras.forEach((p, i) => {
+    html += `<p>${p}</p>`;
+    if (photoIdx < nbPhotos && (i + 1) % step === 0) {
+      const img = images[photoIdx];
+      html += `<div class="article-photo" onclick="ouvrirLightbox('${img.urlFull}')">
+        <img src="${img.url}" alt="Photo ${photoIdx+1}" loading="lazy" />
+        <div class="article-photo-caption">Cliquer pour agrandir</div>
+      </div>`;
+      photoIdx++;
+    }
+  });
+  document.getElementById('article-body-content').innerHTML = html;
+}
+
+function fermerArticle() {
+  document.getElementById('article-modal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ── Vidéo ──
+function ouvrirVideo(ytId) {
+  document.getElementById('video-iframe').src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&vq=hd1080`;
+  document.getElementById('video-modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function fermerVideo() {
+  document.getElementById('video-modal').classList.remove('active');
+  document.getElementById('video-iframe').src = '';
+  document.body.style.overflow = '';
+}
+
+// ── Lightbox ──
+function ouvrirLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('active');
+}
+function fermerLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+
+// ── Curseur ──
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+});
+(function animRing() {
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animRing);
+})();
+
+// ── Scroll reveal ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+
+// ── Escape ──
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { fermerPays(); fermerTheme(); fermerArticle(); fermerLightbox(); fermerVideo(); }
+});
+
+// ── Init ──
+renderPays();
+</script>
+</body>
+</html>
