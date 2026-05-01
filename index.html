@@ -822,6 +822,26 @@ const BLOG_ARTICLES = [
   }
 ];
 
+function renderBlog() {
+  const grid = document.getElementById("blog-grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+  BLOG_ARTICLES.forEach(function(a) {
+    const card = document.createElement("div");
+    card.className = "blog-card";
+    card.onclick = function() { ouvrirArticleIndex(a.themeId); };
+    card.innerHTML =
+      "<div class='blog-card-img'><img src='" + a.coverUrl + "' alt='" + a.titre + "' /></div>" +
+      "<div class='blog-card-content'>" +
+        "<span class='blog-tag'>" + a.tag + "</span>" +
+        "<h3 class='blog-title'>" + a.titre + "</h3>" +
+        "<div class='blog-date'>" + a.date + "</div>" +
+        "<div class='blog-read'>Lire le récit</div>" +
+      "</div>";
+    grid.appendChild(card);
+  });
+}
+
 async function chargerCoverBlog() {
   // Charger toutes les covers d'abord
   for (let i = 0; i < BLOG_ARTICLES.length; i++) {
