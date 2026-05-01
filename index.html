@@ -823,7 +823,11 @@ const BLOG_ARTICLES = [
 ];
 
 async function chargerCoverBlog() {
-  for (const a of BLOG_ARTICLES) {
+  // Afficher d'abord les cartes sans image
+  renderBlog();
+  // Puis charger les covers et mettre à jour chaque image
+  for (let i = 0; i < BLOG_ARTICLES.length; i++) {
+    const a = BLOG_ARTICLES[i];
     try {
       const resp = await fetch("https://eapi.pcloud.com/showpublink?code=" + a.code);
       const data = await resp.json();
@@ -831,12 +835,17 @@ async function chargerCoverBlog() {
         const imgs = (data.metadata?.contents || []).filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f.name));
         if (imgs.length) {
           const pick = imgs[Math.floor(Math.random() * Math.min(imgs.length, 5))];
-          a.coverUrl = "https://eapi.pcloud.com/getpubthumb?code=" + a.code + "&fileid=" + pick.fileid + "&size=800x600&crop=0&type=auto";
+          const url = "https://eapi.pcloud.com/getpubthumb?code=" + a.code + "&fileid=" + pick.fileid + "&size=800x600&crop=0&type=auto";
+          // Mettre à jour l'image directement dans le DOM
+          const cards = document.querySelectorAll(".blog-card");
+          if (cards[i]) {
+            const img = cards[i].querySelector("img");
+            if (img) img.src = url;
+          }
         }
       }
     } catch(e) {}
   }
-  renderBlog();
 }
 
 function renderBlog() {
@@ -848,7 +857,7 @@ function renderBlog() {
     card.className = "blog-card";
     card.onclick = function() { ouvrirArticleIndex(a.themeId); };
     card.innerHTML =
-      "<div class='blog-card-img'><img src='" + a.coverUrl + "' alt='" + a.titre + "' loading='lazy' /></div>" +
+      "<div class='blog-card-img'><img src='" + a.coverUrl + "' alt='" + a.titre + "' /></div>" +
       "<div class='blog-card-content'>" +
         "<span class='blog-tag'>" + a.tag + "</span>" +
         "<h3 class='blog-title'>" + a.titre + "</h3>" +
