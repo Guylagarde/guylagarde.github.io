@@ -595,8 +595,8 @@ async function ouvrirTheme(theme, paysInfo) {
         const url = `${BASE}/getpubthumb?code=${theme.code}&fileid=${img.fileid}&size=1200x900&crop=0&type=auto`;
         const urlFull = `${BASE}/getpubthumb?code=${theme.code}&fileid=${img.fileid}&size=2400x1800&crop=0&type=auto`;
         return `<div class="galerie-item">
-          <img src="${url}" alt="${img.name}" loading="lazy"
-               onclick="event.stopPropagation(); ouvrirLightbox('${urlFull}', '${img.name}')" />
+          <img src="${url}" alt="${img.name}" loading="lazy"onclick="event.stopPropagation(); ouvrirLightbox(this.dataset.url, this.dataset.name)" data-url="${urlFull}" data-name="${img.name}"
+                />
         </div>`;
       }).join('')}
     </div>`;
