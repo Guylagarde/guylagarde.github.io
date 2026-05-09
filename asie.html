@@ -259,7 +259,7 @@ nav {
   cursor: zoom-out;
 }
 .lightbox.active { display: flex; }
-.lightbox img { max-width: 92vw; max-height: 92vh; object-fit: contain; }
+.lightbox img { max-width: 88vw; max-height: 80vh; object-fit: contain; }
 
 /* Modal vidéo */
 .video-modal {
@@ -689,7 +689,9 @@ function ouvrirLightbox(src, filename) {
   const cap = document.getElementById('lightbox-caption');
   if (cap && filename) {
     let nom = filename.replace(/\.[^.]+$/, ''); // supprimer extension
-    nom = nom.replace(/\d+$/, '').trim();        // supprimer chiffres finaux
+    nom = nom.replace(/[\d\-\_]+$/, '').trim(); // supprimer chiffres, tirets, underscores finaux
+    // Mettre la première lettre en majuscule
+    nom = nom.charAt(0).toUpperCase() + nom.slice(1);
     cap.textContent = nom;
   } else if (cap) {
     cap.textContent = '';
