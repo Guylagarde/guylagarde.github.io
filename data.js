@@ -4,7 +4,7 @@
 // ══════════════════════════════════════════════════════════════════
 
 const BASE_API = "https://eapi.pcloud.com";
-const SIGNATURE_URL = "https://eapi.pcloud.com/getpubthumb?code=XZDOBiZ1EE9bXpyGwyFzsPUr70rK5xvOdX7&size=400x200&crop=0&type=auto";
+const SIGNATURE_URL = "https://eapi.pcloud.com/getpubVenisethumb?code=XZDOBiZ1EE9bXpyGwyFzsPUr70rK5xvOdX7&size=400x200&crop=0&type=auto";
 const HERO_PHOTO_CODE = "XZiEtiZdnLkTurVmRpYvTSQW5olhyU8D7gV";
 
 // ── EUROPE ────────────────────────────────────────────────────────
@@ -48,7 +48,7 @@ const EUROPE = [
     legende: "Îles napolitaines et sérénissime Venise — l'Italie hors des sentiers battus.",
     themes: [
       { id: "ischia", nom: "Ischia, Procida, Capri", legende: "", code: "kZBWBiZKqrJxlmRKAVNgCrTUXBENkLHSfBk", blog: false },
-      { id: "venise", nom: "Venise", legende: "", code: "kZWWBiZGRQ8PQ64ENmPGieAPFRM8jksPzQX", blog: false },
+      { id: "venise", nom: "Venise et Burano", legende: "", code: "kZWWBiZGRQ8PQ64ENmPGieAPFRM8jksPzQX", blog: false },
     ],
     videos: [
       { titre: "Venise en images", url: "https://youtu.be/2wXnisjKQdk", ytId: "2wXnisjKQdk" },
