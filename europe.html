@@ -259,7 +259,7 @@ nav {
   cursor: zoom-out;
 }
 .lightbox.active { display: flex; }
-.lightbox img { max-width: 88vw; max-height: 80vh; object-fit: contain; }
+.lightbox img { max-width: 92vw; max-height: 92vh; object-fit: contain; }
 
 /* Modal vidéo */
 .video-modal {
@@ -419,8 +419,10 @@ footer {
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="fermerLightbox()">
-  <img id="lightbox-img" src="" alt="" />
-  <div id="lightbox-caption" style="position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:#f0ece4;font-family:'Montserrat',sans-serif;font-size:0.8rem;letter-spacing:0.15em;text-align:center;text-transform:capitalize;background:rgba(0,0,0,0.5);padding:0.5rem 1.5rem;border-radius:2px;"></div>
+  <div style="position:relative;display:inline-block;max-width:92vw;max-height:92vh;">
+    <img id="lightbox-img" src="" alt="" style="display:block;max-width:92vw;max-height:92vh;object-fit:contain;" />
+    <div id="lightbox-caption" style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);color:#f0ece4;font-family:'Montserrat',sans-serif;font-size:0.75rem;letter-spacing:0.15em;text-align:center;background:rgba(0,0,0,0.65);padding:0.5rem 2rem;width:100%;max-width:92vw;box-sizing:border-box;pointer-events:none;"></div>
+  </div>
   <button onclick="event.stopPropagation(); fermerLightbox()" style="position:absolute;top:2rem;right:2rem;background:none;border:1px solid #c9a96e;color:#c9a96e;padding:0.6rem 1.5rem;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;">✕ Fermer</button>
 </div>
 
