@@ -157,8 +157,8 @@ const ASIE = [
     flagImg: "https://flagcdn.com/w40/my.png",
     legende: "Des Cameron Highlands aux grandes villes de Malaisie.",
     themes: [
-      { id: "cameron", nom: "Les Cameron Highlands", legende: "", code: "kZD9tiZhApVQLnoirbQWWIV2E6X0hLNsxO7", blog: false },
-      { id: "kuala-lumpur", nom: "Kuala Lumpur, Malacca, Georgestown et Ipoh", legende: "", code: "kZx9tiZjWLFY2HMHHRBgU3AoFPeeluvDOjKX", blog: false },
+      { id: "cameron", nom: "Les Cameron Hills", legende: "", code: "kZD9tiZhApVQLnoirbQWWIV2E6X0hLNsxO7", blog: false },
+      { id: "kuala-lumpur", nom: "Kuala Lumpur, Malacca, Georgestown et Ipoh", legende: "", code: "kZx9tiZjWLFY2HMHRBgU3AoFPeeluvDOjKX", blog: false },
     ],
     videos: []
   },

@@ -420,6 +420,8 @@ footer {
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="fermerLightbox()">
   <img id="lightbox-img" src="" alt="" />
+  <div id="lightbox-caption" style="position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:#f0ece4;font-family:'Montserrat',sans-serif;font-size:0.8rem;letter-spacing:0.15em;text-align:center;text-transform:capitalize;background:rgba(0,0,0,0.5);padding:0.5rem 1.5rem;border-radius:2px;"></div>
+  <button onclick="event.stopPropagation(); fermerLightbox()" style="position:absolute;top:2rem;right:2rem;background:none;border:1px solid #c9a96e;color:#c9a96e;padding:0.6rem 1.5rem;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;">✕ Fermer</button>
 </div>
 
 <!-- Modal vidéo -->
@@ -460,9 +462,9 @@ async function chargerCouverturePays(pays, idx) {
     const resp = await fetch(`${BASE}/showpublink?code=${theme.code}`);
     const data = await resp.json();
     if (data.result !== 0) return;
-    const images = (data.metadata?.contents || []).filter(f =>
-      !f.isfolder && /\.(jpg|jpeg|png|webp)$/i.test(f.name)
-    );
+    const images = (data.metadata?.contents || [])
+      .filter(f => !f.isfolder && /\.(jpg|jpeg|png|webp)$/i.test(f.name))
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, {numeric: true}));
     if (!images.length) return;
     const pick = images[Math.floor(Math.random() * Math.min(images.length, 5))];
     const url = `${BASE}/getpubthumb?code=${theme.code}&fileid=${pick.fileid}&size=800x600&crop=0&type=auto`;
@@ -544,9 +546,9 @@ async function chargerCouvertureTheme(theme) {
     const resp = await fetch(`${BASE}/showpublink?code=${theme.code}`);
     const data = await resp.json();
     if (data.result !== 0) return;
-    const images = (data.metadata?.contents || []).filter(f =>
-      !f.isfolder && /\.(jpg|jpeg|png|webp)$/i.test(f.name)
-    );
+    const images = (data.metadata?.contents || [])
+      .filter(f => !f.isfolder && /\.(jpg|jpeg|png|webp)$/i.test(f.name))
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, {numeric: true}));
     const countEl = document.getElementById(`count-${theme.id}`);
     if (countEl) countEl.textContent = images.length + ' photo' + (images.length > 1 ? 's' : '');
     if (!images.length) return;
@@ -581,9 +583,9 @@ async function ouvrirTheme(theme, paysInfo) {
     const resp = await fetch(`${BASE}/showpublink?code=${theme.code}`);
     const data = await resp.json();
     if (data.result !== 0) { document.getElementById('modal-theme-body').innerHTML = '<div class="galerie-loading">Erreur de chargement</div>'; return; }
-    const images = (data.metadata?.contents || []).filter(f =>
-      !f.isfolder && /\.(jpg|jpeg|png|webp)$/i.test(f.name)
-    );
+    const images = (data.metadata?.contents || [])
+      .filter(f => !f.isfolder && /\.(jpg|jpeg|png|webp)$/i.test(f.name))
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, {numeric: true}));
     if (!images.length) { document.getElementById('modal-theme-body').innerHTML = '<div class="galerie-loading">Aucune image trouvée</div>'; return; }
 
     const html = `<div class="galerie-masonry">
@@ -592,7 +594,7 @@ async function ouvrirTheme(theme, paysInfo) {
         const urlFull = `${BASE}/getpubthumb?code=${theme.code}&fileid=${img.fileid}&size=2400x1800&crop=0&type=auto`;
         return `<div class="galerie-item">
           <img src="${url}" alt="${img.name}" loading="lazy"
-               onclick="event.stopPropagation(); ouvrirLightbox('${urlFull}')" />
+               onclick="event.stopPropagation(); ouvrirLightbox('${urlFull}', '${img.name}')" />
         </div>`;
       }).join('')}
     </div>`;
@@ -634,6 +636,7 @@ async function ouvrirArticle(themeId) {
       if (data.result === 0) {
         images = (data.metadata?.contents || [])
           .filter(f => !f.isfolder && /\.(jpg|jpeg|png|webp)$/i.test(f.name))
+          .sort((a, b) => a.name.localeCompare(b.name, undefined, {numeric: true}))
           .map(f => ({
             url: `${BASE}/getpubthumb?code=${theme.code}&fileid=${f.fileid}&size=1200x800&crop=0&type=auto`,
             urlFull: `${BASE}/getpubthumb?code=${theme.code}&fileid=${f.fileid}&size=2400x1600&crop=0&type=auto`
@@ -679,9 +682,18 @@ function fermerVideo() {
 }
 
 // ── Lightbox ──
-function ouvrirLightbox(src) {
+function ouvrirLightbox(src, filename) {
   document.getElementById('lightbox-img').src = src;
   document.getElementById('lightbox').classList.add('active');
+  // Afficher le nom sans extension et sans chiffres finaux
+  const cap = document.getElementById('lightbox-caption');
+  if (cap && filename) {
+    let nom = filename.replace(/\.[^.]+$/, ''); // supprimer extension
+    nom = nom.replace(/\d+$/, '').trim();        // supprimer chiffres finaux
+    cap.textContent = nom;
+  } else if (cap) {
+    cap.textContent = '';
+  }
 }
 function fermerLightbox() { document.getElementById('lightbox').classList.remove('active'); }
 
