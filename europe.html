@@ -594,12 +594,10 @@ async function ouvrirTheme(theme, paysInfo) {
       ${images.map(img => {
         const url = `${BASE}/getpubthumb?code=${theme.code}&fileid=${img.fileid}&size=1200x900&crop=0&type=auto`;
         const urlFull = `${BASE}/getpubthumb?code=${theme.code}&fileid=${img.fileid}&size=2400x1800&crop=0&type=auto`;
-        const div = document.createElement('div');
-        div.className = 'galerie-item';
-        div.style.cursor = 'zoom-in';
-        div.innerHTML = '<img src="' + url + '" alt="' + img.name + '" loading="lazy" style="width:100%;display:block;filter:brightness(0.9);" />';
-        div.addEventListener('click', function(e) { e.stopPropagation(); ouvrirLightbox(urlFull, img.name); });
-        return div.outerHTML;
+        return `<div class="galerie-item">
+          <img src="${url}" alt="${img.name}" loading="lazy"onclick="event.stopPropagation(); ouvrirLightbox(this.dataset.url, this.dataset.name)" data-url="${urlFull}" data-name="${img.name}"
+                />
+        </div>`;
       }).join('')}
     </div>`;
     document.getElementById('modal-theme-body').innerHTML = html;
