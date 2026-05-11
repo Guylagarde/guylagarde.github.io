@@ -256,10 +256,22 @@ nav {
 .lightbox {
   position: fixed; inset: 0; background: rgba(0,0,0,0.97);
   z-index: 3000; display: none; align-items: center; justify-content: center;
-  cursor: zoom-out;
 }
 .lightbox.active { display: flex; }
-.lightbox img { max-width: 92vw; max-height: 92vh; object-fit: contain; }
+.lightbox img { max-width: 82vw; max-height: 88vh; object-fit: contain; display: block; }
+.lightbox-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: none; border: 1px solid var(--or);
+  color: var(--or); font-size: 1.5rem;
+  width: 3rem; height: 3rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.2s, color 0.2s;
+  z-index: 10;
+}
+.lightbox-arrow:hover { background: var(--or); color: var(--noir); }
+.lightbox-arrow.prev { left: 1rem; }
+.lightbox-arrow.next { right: 1rem; }
+.lightbox-arrow:disabled { opacity: 0.2; cursor: default; }
 
 /* Modal vidéo */
 .video-modal {
@@ -418,11 +430,13 @@ footer {
 </div>
 
 <!-- Lightbox -->
-<div class="lightbox" id="lightbox" onclick="fermerLightbox()">
-  <div style="position:relative;display:inline-block;max-width:92vw;max-height:92vh;">
-    <img id="lightbox-img" src="" alt="" style="display:block;max-width:92vw;max-height:92vh;object-fit:contain;" />
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-arrow prev" id="lb-prev" onclick="naviguerLightbox(-1)">&#8592;</button>
+  <div style="position:relative;display:inline-block;max-width:82vw;max-height:88vh;" onclick="fermerLightbox()">
+    <img id="lightbox-img" src="" alt="" style="display:block;max-width:82vw;max-height:88vh;object-fit:contain;" />
     <div id="lightbox-caption" style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);color:#f0ece4;font-family:'Montserrat',sans-serif;font-size:0.75rem;letter-spacing:0.15em;text-align:center;background:rgba(0,0,0,0.65);padding:0.5rem 2rem;width:100%;max-width:92vw;box-sizing:border-box;pointer-events:none;"></div>
   </div>
+  <button class="lightbox-arrow next" id="lb-next" onclick="naviguerLightbox(1)">&#8594;</button>
   <button onclick="event.stopPropagation(); fermerLightbox()" style="position:absolute;top:2rem;right:2rem;background:none;border:1px solid #c9a96e;color:#c9a96e;padding:0.6rem 1.5rem;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;">✕ Fermer</button>
 </div>
 
@@ -686,20 +700,49 @@ function fermerVideo() {
 }
 
 // ── Lightbox ──
+// Variables pour la navigation lightbox
+let _lbImages = [];
+let _lbIndex = 0;
+
 function ouvrirLightbox(src, filename) {
-  document.getElementById('lightbox-img').src = src;
+  // Chercher l'index dans la liste courante des images
+  const imgs = document.querySelectorAll('.galerie-item img');
+  _lbImages = Array.from(imgs).map(function(img) {
+    return {
+      url: img.getAttribute('data-url') || img.src,
+      name: img.getAttribute('data-name') || img.alt
+    };
+  });
+  _lbIndex = _lbImages.findIndex(function(img) {
+    return img.url === src || img.name === filename;
+  });
+  if (_lbIndex < 0) _lbIndex = 0;
+  afficherLightbox();
   document.getElementById('lightbox').classList.add('active');
-  // Afficher le nom sans extension et sans chiffres finaux
+  document.body.style.overflow = 'hidden';
+}
+
+function afficherLightbox() {
+  if (!_lbImages.length) return;
+  const item = _lbImages[_lbIndex];
+  document.getElementById('lightbox-img').src = item.url;
   const cap = document.getElementById('lightbox-caption');
-  if (cap && filename) {
-    let nom = filename.replace(/\.[^.]+$/, ''); // supprimer extension
-    nom = nom.replace(/[\d\-\_]+$/, '').trim(); // supprimer chiffres, tirets, underscores finaux
-    // Mettre la première lettre en majuscule
+  if (cap) {
+    let nom = (item.name || '').replace(/\.[^.]+$/, '');
+    nom = nom.replace(/[\d\-\_]+$/, '').trim();
     nom = nom.charAt(0).toUpperCase() + nom.slice(1);
     cap.textContent = nom;
-  } else if (cap) {
-    cap.textContent = '';
   }
+  // Mettre à jour les flèches
+  const prev = document.getElementById('lb-prev');
+  const next = document.getElementById('lb-next');
+  if (prev) prev.disabled = _lbIndex === 0;
+  if (next) next.disabled = _lbIndex === _lbImages.length - 1;
+}
+
+function naviguerLightbox(direction) {
+  _lbIndex = Math.max(0, Math.min(_lbImages.length - 1, _lbIndex + direction));
+  afficherLightbox();
 }
 function fermerLightbox() { document.getElementById('lightbox').classList.remove('active'); }
 
@@ -725,6 +768,8 @@ const observer = new IntersectionObserver(entries => {
 // ── Escape ──
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { fermerPays(); fermerTheme(); fermerArticle(); fermerLightbox(); fermerVideo(); }
+  if (e.key === 'ArrowRight') naviguerLightbox(1);
+  if (e.key === 'ArrowLeft') naviguerLightbox(-1);
 });
 
 // ── Init ──
