@@ -86,11 +86,13 @@ const EUROPE = [
   },
   {
     id: "hollande",
-    nom: "Hollande",
+    nom: "Pays Bas",
     flagImg: "https://flagcdn.com/w40/nl.png",
     legende: "Le Plat Pays, ses moulins, ses canaux",
     themes: [
-      { id: "hollande", nom: "Hollande", legende: "", code: "CODE_PCLOUD", blog: false },
+      { id: "Les villes", nom: "Delft, Amsterdam, Giethoorn", legende: "", code: "XZltu77ZVhvxDFxeJU8U2JJXa7vkEzJqqz7", blog: false },
+      { id: "Les moulins", nom: "Moulins de Kinderdjik", legende: "", code: "XZV6u77ZJFt7DzilAoQAq0CV4NAozSQxzHXV", blog: false },
+      { id: "Encore des moulins", nom: "Moulins de Zaanse  Schans", legende: "", code: "XZR6u77Z8gqv8uMU8rX83m85yxhP4miCfM2k", blog: false },
     ],
     videos: []
   },
