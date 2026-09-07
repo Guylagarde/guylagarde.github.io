@@ -84,6 +84,16 @@ const EUROPE = [
     ],
     videos: []
   },
+  {
+    id: "hollande",
+    nom: "Hollande",
+    flagImg: "https://flagcdn.com/w40/nl.png",
+    legende: "Le Plat Pays, ses moulins, ses canaux",
+    themes: [
+      { id: "hollande", nom: "Hollande", legende: "", code: "CODE_PCLOUD", blog: false },
+    ],
+    videos: []
+  },
 ];
 
 // ── ASIE ──────────────────────────────────────────────────────────
