@@ -90,9 +90,9 @@ const EUROPE = [
     flagImg: "https://flagcdn.com/w40/nl.png",
     legende: "Le Plat Pays, ses moulins, ses canaux",
     themes: [
-      { id: "Les villes", nom: "Delft, Amsterdam, Giethoorn", legende: "", code: "kZ5Ou77ZJTpANxR01r7fAgN3U6whnhPMKUN7", blog: false },
-      { id: "Les moulins", nom: "Moulins de Kinderdjik", legende: "", code: "kZV6u77ZJFt7DzilAoQAq0CV4NAozSQxzHXV", blog: false },
-      { id: "Encore des moulins", nom: "Moulins de Zaanse  Schans", legende: "", code: "kZR6u77Z8gqv8uMU8rX83m85yxhP4miCfM2k", blog: false },
+      { id: "Les villes", nom: "Delft, Amsterdam, Giethoorn", legende: "", code: "kZm3u77Zv25DQdTAEQS2Ig9pNRPv85oW59Tk", blog: false },
+      { id: "Les moulins", nom: "Moulins de Kinderdjik", legende: "", code: "kZb3u77ZjI19zsjw16Jk4icTCIlUeLb6Ps4V", blog: false },
+      { id: "Encore des moulins", nom: "Moulins de Zaanse  Schans", legende: "", code: "kZh3u77ZTWeyl8qKbO7XAIx6U3QFHLmyjJ77", blog: false },
     ],
     videos: []
   },
