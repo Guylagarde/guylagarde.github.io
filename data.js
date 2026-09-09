@@ -100,7 +100,7 @@ const EUROPE = [
     id: "turquie",
     nom: "Turquie",
     flagImg: "https://flagcdn.com/w40/tr.png",
-    legende: "...",
+    legende: "Istanbul — deux continents, une âme, mille vies qui se croisent sur les rives du Bosphore",
     themes: [
       { id: "istanbul", nom: "Istanbul", legende: "", code: "kZS0D77ZKjDsOTeKNc5FwtqxxL3mORfzqGM7", blog: false },
     ],
