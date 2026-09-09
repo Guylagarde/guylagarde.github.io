@@ -100,9 +100,9 @@ const EUROPE = [
     id: "turquie",
     nom: "Turquie",
     flagImg: "https://flagcdn.com/w40/tr.png",
-    legende: "Istanbul. Deux continents, mille vies se croisent sur les rives du Bosphore.",
+    legende: "Deux continents, mille vies se croisent sur les rives du Bosphore.",
     themes: [
-      { id: "istanbul", nom: "Istanbul", legende: "", code: "kZS0D77ZKjDsOTeKNc5FwtqxxL3mORfzqGM7", blog: false },
+      { id: "istanbul", nom: "Istanbul", legende: "Deux continents, mille vies se croisent sur les rives du Bosphore.", code: "kZS0D77ZKjDsOTeKNc5FwtqxxL3mORfzqGM7", blog: false },
     ],
     videos: []
   },
