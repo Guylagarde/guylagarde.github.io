@@ -91,8 +91,18 @@ const EUROPE = [
     legende: "Le Plat Pays, ses moulins, ses canaux",
     themes: [
       { id: "Les villes", nom: "Delft, Amsterdam, Giethoorn", legende: "", code: "kZm3u77Zv25DQdTAEQS2Ig9pNRPv85oW59Tk", blog: false },
-      { id: "Les moulins", nom: "Moulins de Kinderdijk", legende: "", code: "kZb3u77ZjI19zsjw16Jk4icTCIlUeLb6Ps4V", blog: false },
+      { id: "Les moulins", nom: "Moulins de Kinderdjik", legende: "", code: "kZb3u77ZjI19zsjw16Jk4icTCIlUeLb6Ps4V", blog: false },
       { id: "Encore des moulins", nom: "Moulins de Zaanse Schans", legende: "", code: "kZh3u77ZTWeyl8qKbO7XAIx6U3QFHLmyjJ77", blog: false },
+    ],
+    videos: []
+  },
+  {
+    id: "turquie",
+    nom: "Turquie",
+    flagImg: "https://flagcdn.com/w40/tr.png",
+    legende: "...",
+    themes: [
+      { id: "istanbul", nom: "Istanbul", legende: "", code: "kZS0D77ZKjDsOTeKNc5FwtqxxL3mORfzqGM7", blog: false },
     ],
     videos: []
   },
